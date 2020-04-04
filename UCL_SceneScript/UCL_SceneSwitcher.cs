@@ -1,15 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 
 namespace UCL.SceneLib {
 
+
 #if UNITY_EDITOR
-    public static class SceneHelper {
+    public static class EditorSceneLoader {
         static string m_SceneToOpen;
         static bool m_Rigistered = false;
-        public static void StartScene(string scene) {
+        public static void LoadScene(string scene) {
             if(UnityEditor.EditorApplication.isPlaying) {
                 UnityEditor.EditorApplication.isPlaying = false;
             }
@@ -49,15 +51,45 @@ namespace UCL.SceneLib {
 #endif
 
 
-    [CreateAssetMenu(fileName = "New SceneSwitcher", menuName = "UCL_SceneSwitcher", order = 0)]
+
+[CreateAssetMenu(fileName = "New SceneSwitcher", menuName = "UCL/SceneSwitcher", order = 0)]
     public class UCL_SceneSwitcher : ScriptableObject {
         [System.Serializable]
         public struct SceneData {
-            public string m_SceneName;// = "Assets/Scenes/";
-            public string m_Path;
+            //public string m_SceneName;// = "Assets/Scenes/";
+            //public string m_Path;
             public string m_IconName;
-            //public Object m_Scene;
+            public Object m_Scene;
+            /*
+            public bool UpdateData() {
+                bool altered = false;
+#if UNITY_EDITOR
+                if(m_Scene == null) {
+                    return false;
+                }
+                
+                if(m_SceneName != m_Scene.name) {
+                    m_SceneName = m_Scene.name;
+                    altered = true;
+                }
+                var path = AssetDatabase.GetAssetPath(m_Scene.GetInstanceID());
+                if(path != m_Path) {
+                    m_Path = path;
+                    altered = true;
+                }
+#endif
+                return altered;
+            }
+            */
+            public string GetSceneName() {
+                if(m_Scene == null) return "";
+
+                return m_Scene.name;
+            }
             public string GetIconName() {
+                if(m_Scene == null) return "";
+
+                string m_SceneName = m_Scene.name;
                 if(string.IsNullOrEmpty(m_IconName)) {
                     int len = m_SceneName.Length;
                     if(len > 2) len = 2;
@@ -66,15 +98,22 @@ namespace UCL.SceneLib {
                 return m_IconName;
             }
             public string GetPath() {
-                return m_Path + m_SceneName + ".unity";
+                if(m_Scene == null) return "";
+
+                return AssetDatabase.GetAssetPath(m_Scene.GetInstanceID());
             }
 #if UNITY_EDITOR
             public void OpenScene() {
                 var path = GetPath();
-                SceneHelper.StartScene(path);
-                UnityEditor.Selection.activeObject = UnityEditor.AssetDatabase.LoadMainAssetAtPath(path);
+                EditorSceneLoader.LoadScene(path);
+                //UnityEditor.Selection.activeObject = UnityEditor.AssetDatabase.LoadMainAssetAtPath(path);
             }
 #endif
+        }
+
+        [MenuItem("UCL/SceneSwitcher")]
+        static public void OpenSceneSwitcher() {
+            Selection.activeObject = AssetDatabase.LoadMainAssetAtPath("Assets/Libs/UCL_Modules/UCL_Scene/SceneSwitcher.asset");
         }
 
         public List<SceneData> m_SceneDatas;
