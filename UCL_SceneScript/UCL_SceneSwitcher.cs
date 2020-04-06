@@ -63,12 +63,12 @@ namespace UCL.SceneLib {
 
                 return m_Scene.name;
             }
+#if UNITY_EDITOR
             public string GetPath() {
                 if(m_Scene == null) return "";
 
                 return AssetDatabase.GetAssetPath(m_Scene.GetInstanceID());
             }
-#if UNITY_EDITOR
             public void OpenScene() {
                 var path = GetPath();
                 EditorSceneLoader.LoadScene(path);
@@ -76,12 +76,12 @@ namespace UCL.SceneLib {
             }
 #endif
         }
-
+#if UNITY_EDITOR
         [MenuItem("UCL/SceneSwitcher")]
         static public void OpenSceneSwitcher() {
             Selection.activeObject = AssetDatabase.LoadMainAssetAtPath("Assets/Libs/UCL_Modules/UCL_Scene/SceneSwitcher.asset");
         }
-
+#endif
         public List<SceneData> m_SceneDatas;
         [Core.UCL_StrListProperty(typeof(UCL_Scene), "GetAllScenesName")] public string m_LoadSceneName;
     }
