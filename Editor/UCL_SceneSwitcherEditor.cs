@@ -12,16 +12,19 @@ namespace UCL.SceneLib {
             var controller = (UCL_SceneSwitcher)target;
 
             if(GUILayout.Button("Load:" + controller.m_LoadSceneName)) {
-                SceneHelper.StartScene(UCL_Scene.GetScenePath(controller.m_LoadSceneName));
+                EditorSceneLoader.LoadScene(UCL_Scene.GetScenePath(controller.m_LoadSceneName));
             }
-
+            GUILayout.Space(20);
+            //GUILayout.Height(100);
             var buts = controller.m_SceneDatas;
             if(buts != null) {
                 foreach(var but in buts) {
-                    if(GUILayout.Button(but.m_SceneName)) {
+                    if(GUILayout.Button(but.GetSceneName())) {
                         but.OpenScene();
                     }
                 }
+                //if(altered) EditorUtility.SetDirty(controller);
+                
             }
         }
     }
