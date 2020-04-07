@@ -34,7 +34,7 @@ namespace UCL.SceneLib {
         }
 
         virtual public void Rigister() {
-            UCL.SceneLib.UCL_SceneManager.Instance.SetLoadSceneUI(this);
+            UCL.SceneLib.UCL_SceneManager.Instance?.SetLoadSceneUI(this);
         }
         virtual public void UnRigister() {
             if(m_LoadingPanel) m_LoadingPanel.SetActive(false);
