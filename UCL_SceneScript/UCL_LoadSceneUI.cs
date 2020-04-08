@@ -3,20 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 namespace UCL.SceneLib {
-    public class UCL_LoadSceneUI : MonoBehaviour {
+    public class UCL_LoadSceneUI : Core.UCL_Singleton<UCL_LoadSceneUI> {
         [SerializeField] protected bool f_InitOnAwake = true;
-        [SerializeField] protected bool f_DontDestroyOnLoad = true;
         [SerializeField] protected GameObject m_LoadingPanel;
         [SerializeField] protected GameObject m_LoadingCompletePanel;
         [SerializeField] protected Image m_ProgressBar;
 
         protected LoadSceneData m_LoadSceneData;
         private void Awake() {
+            if(!SetInstance(this)) {
+                return;
+            }
             if(f_InitOnAwake) {
                 Init();
-            }
-            if(f_DontDestroyOnLoad) {
-                DontDestroyOnLoad(gameObject);
             }
         }
         private void OnApplicationQuit() {
@@ -29,8 +28,10 @@ namespace UCL.SceneLib {
         }
 
         virtual public void AllowSceneActivation() {
+            if(m_LoadSceneData == null) return;
+
             Debug.LogWarning("AllowSceneActivation():"+m_LoadSceneData.m_SceneName);
-            m_LoadSceneData?.SetAllowSceneActivation(true);
+            m_LoadSceneData.SetAllowSceneActivation(true);
         }
 
         virtual public void Rigister() {
