@@ -85,7 +85,8 @@ namespace UCL.SceneLib {
 #if UNITY_EDITOR
         [MenuItem("UCL/SceneSwitcher")]
         static public void OpenSceneSwitcher() {
-            Selection.activeObject = AssetDatabase.LoadMainAssetAtPath("Assets/Libs/UCL_Modules/UCL_Scene/SceneSwitcher.asset");
+            //Selection.activeObject = AssetDatabase.LoadMainAssetAtPath("Assets/Libs/UCL_Modules/UCL_Scene/SceneSwitcher.asset");
+            Selection.activeObject = Resources.Load<UCL.SceneLib.UCL_SceneSwitcher>("SceneSwitcher");
         }
 #endif
         public List<SceneData> m_SceneDatas;
