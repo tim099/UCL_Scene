@@ -161,6 +161,16 @@ namespace UCL.SceneLib {
         private void Awake() {
         }
         private void Start() {
+            if(m_LoadSceneUI == null) {
+                if(UCL_LoadSceneUI.GetInstance()) {
+                    m_LoadSceneUI = UCL_LoadSceneUI.GetInstance();
+                } else {
+                    var UI = UCL_SceneSetting.Get().m_DefaultLoadSceneUI;
+                    if(UI) {
+                        UCL_LoadSceneUI.CreateInstance(UI);
+                    }
+                }
+            }
             UCL.Core.UCL_GameManager.Instance.m_ExitGameEvent.AddListener(ExitGameEvent);
         }
         virtual protected void ExitGameEvent() {

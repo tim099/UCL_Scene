@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8734df2ffdeea8347920e60cb7aa8a85, type: 3}
   m_Name: SceneSetting
   m_EditorClassIdentifier: 
-  m_DefaultLoadSceneUI: {fileID: 0}
+  m_DefaultLoadSceneUI: {fileID: 2784406785261598954, guid: 65314719f05c0554989af2e310f32803,
+    type: 3}
