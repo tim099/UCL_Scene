@@ -9,7 +9,7 @@ namespace UCL.SceneLib {
 
 
         static public UCL_SceneSetting Get() {
-            return Resources.Load<UCL.SceneLib.UCL_SceneSetting>("SceneSetting");
+            return Resources.Load<UCL_SceneSetting>("SceneSetting");
         }
 #if UNITY_EDITOR
         [UnityEditor.MenuItem("UCL/SceneLib/SceneSetting")]
