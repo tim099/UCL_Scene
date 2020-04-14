@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 namespace UCL.SceneLib {
-    static public class UCL_Scene {
+    static public class Lib {
 
         /// <summary>
         /// convert scene name to path!!

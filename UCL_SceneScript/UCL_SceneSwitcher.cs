@@ -90,6 +90,6 @@ namespace UCL.SceneLib {
         }
 #endif
         public List<SceneData> m_SceneDatas;
-        [Core.PA.UCL_StrListProperty(typeof(UCL_Scene), "GetAllScenesName")] public string m_LoadSceneName;
+        [Core.PA.UCL_StrListProperty(typeof(Lib), "GetAllScenesName")] public string m_LoadSceneName;
     }
 }

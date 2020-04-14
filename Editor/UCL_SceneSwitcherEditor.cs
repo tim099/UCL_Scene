@@ -12,7 +12,7 @@ namespace UCL.SceneLib {
             var controller = (UCL_SceneSwitcher)target;
 
             if(GUILayout.Button("Load:" + controller.m_LoadSceneName)) {
-                EditorSceneLoader.LoadScene(UCL_Scene.GetScenePath(controller.m_LoadSceneName));
+                EditorSceneLoader.LoadScene(Lib.GetScenePath(controller.m_LoadSceneName));
             }
             GUILayout.Space(20);
             //GUILayout.Height(100);
