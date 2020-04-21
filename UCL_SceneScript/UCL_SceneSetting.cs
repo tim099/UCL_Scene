@@ -13,7 +13,7 @@ namespace UCL.SceneLib {
         }
 #if UNITY_EDITOR
         [UnityEditor.MenuItem("UCL/SceneLib/SceneSetting")]
-        static public void OpenSceneSwitcher() {
+        static public void OpenSceneSetting() {
             //Selection.activeObject = AssetDatabase.LoadMainAssetAtPath("Assets/Libs/UCL_Modules/UCL_Scene/SceneSwitcher.asset");
             UnityEditor.Selection.activeObject = Get();
         }

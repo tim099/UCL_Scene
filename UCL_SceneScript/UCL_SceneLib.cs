@@ -61,6 +61,18 @@ namespace UCL.SceneLib {
 #endif
             return SceneNames.ToArray();
         }
+        static public string[] GetAcitveScenesPath() {
+            List<string> ScenePaths = new List<string>();
+#if UNITY_EDITOR
+            foreach(UnityEditor.EditorBuildSettingsScene S in UnityEditor.EditorBuildSettings.scenes) {
+                if(S.enabled) {
+                    ScenePaths.Add(S.path);
+                }
+            }
+#endif
+            return ScenePaths.ToArray();
+        }
+
     }
 }
 
