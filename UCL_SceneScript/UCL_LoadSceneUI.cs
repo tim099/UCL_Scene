@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace UCL.SceneLib {
     public class UCL_LoadSceneUI : Core.UCL_Singleton<UCL_LoadSceneUI> {
+        [SerializeField] protected bool f_RigisterOnAwake = true;
         [SerializeField] protected bool f_InitOnAwake = true;
         [SerializeField] protected GameObject m_LoadingPanel;
         [SerializeField] protected GameObject m_LoadingCompletePanel;
@@ -11,11 +12,18 @@ namespace UCL.SceneLib {
 
         protected LoadSceneData m_LoadSceneData;
         private void Awake() {
+            /*
             if(!SetInstance(this)) {
                 return;
             }
+            */
+            ReplaceInstance(this);
+            
             if(f_InitOnAwake) {
                 Init();
+            }
+            if(f_RigisterOnAwake) {
+                UCL_SceneManager.Instance?.SetLoadSceneUI(this);
             }
         }
         private void OnApplicationQuit() {
@@ -49,7 +57,7 @@ namespace UCL.SceneLib {
             Debug.LogWarning("StartLoading:" + m_LoadSceneData.m_SceneName);
         }
         /// <summary>
-        /// Scene loaded but not yet switch to nwe scene
+        /// Scene loaded but not yet switch to new scene
         /// </summary>
         virtual public void CompleteLoading() {
             Debug.LogWarning("CompleteLoading():" + m_LoadSceneData.m_SceneName);

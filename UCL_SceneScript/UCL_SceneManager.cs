@@ -184,6 +184,8 @@ namespace UCL.SceneLib {
             //m_ApplicationQuit = true;
         }
         public void SetLoadSceneUI(UCL_LoadSceneUI _LoadSceneUI) {
+            if(m_LoadSceneUI == _LoadSceneUI) return;
+
             if(m_LoadSceneUI) {
                 m_LoadSceneUI.UnRigister();
             }
