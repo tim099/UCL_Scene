@@ -56,7 +56,7 @@ namespace UCL.SceneLib {
     public class UCL_SceneSwitcher : ScriptableObject {
         [System.Serializable]
         public struct SceneData {
-            [UCL.Core.PA.UCL_ButtonProperty("OpenScene")] public Object m_Scene;
+            [UCL.Core.PA.UCL_ButtonAttribute("OpenScene")] public Object m_Scene;
 
             public string GetSceneName() {
                 if(m_Scene == null) return "";
@@ -90,6 +90,6 @@ namespace UCL.SceneLib {
         }
 #endif
         public List<SceneData> m_SceneDatas;
-        [Core.PA.UCL_StrListProperty(typeof(Lib), "GetAllScenesName")] public string m_LoadSceneName;
+        [Core.PA.UCL_StrList(typeof(Lib), "GetAllScenesName")] public string m_LoadSceneName;
     }
 }

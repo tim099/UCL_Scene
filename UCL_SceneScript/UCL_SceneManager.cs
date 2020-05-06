@@ -171,7 +171,7 @@ namespace UCL.SceneLib {
                     }
                 }
             }
-            UCL.Core.UCL_GameManager.Instance.m_ExitGameEvent.AddListener(ExitGameEvent);
+            UCL.Core.Game.UCL_GameManager.Instance.m_ExitGameEvent.AddListener(ExitGameEvent);
         }
         virtual protected void ExitGameEvent() {
             m_CurLoadSceneData?.SetAllowSceneActivation(true);
@@ -203,17 +203,17 @@ namespace UCL.SceneLib {
         public bool GetIsLoading() { return m_CurLoadSceneData != null; }
 
         void StartLoadScene() {
-            if(GetIsLoading() || Core.UCL_GameManager.Instance.f_ExitGame) return;
+            if(GetIsLoading() || Core.Game.UCL_GameManager.Instance.f_ExitGame) return;
             if(m_LoadSceneDataQue.Count == 0) return;
             //Debug.LogWarning("StartLoadScene()");
             StartCoroutine(LoadSceneCoroutine(m_LoadSceneDataQue.Dequeue()));
         }
 
         IEnumerator LoadSceneCoroutine(LoadSceneData data) {
-            if(Core.UCL_GameManager.Instance.f_ExitGame) yield break;
+            if(Core.Game.UCL_GameManager.Instance.f_ExitGame) yield break;
             //Debug.LogWarning("LoadSceneCoroutine:" + data.m_SceneName);
             m_CurLoadSceneData = data;
-            UCL.Core.UCL_GameManager.Instance.m_BlockExitGameFlag.Add("LoadSceneCoroutine");
+            UCL.Core.Game.UCL_GameManager.Instance.m_BlockExitGameFlag.Add("LoadSceneCoroutine");
             m_CurLoadSceneData.LoadInit();
             m_LoadSceneUI?.StartLoading(data);
             bool complete = false;
@@ -234,11 +234,11 @@ namespace UCL.SceneLib {
             }
             m_LoadSceneUI?.EndLoading();
             m_CurLoadSceneData = null;
-            UCL.Core.UCL_GameManager.Instance.m_BlockExitGameFlag.Remove("LoadSceneCoroutine");
+            UCL.Core.Game.UCL_GameManager.Instance.m_BlockExitGameFlag.Remove("LoadSceneCoroutine");
             //Debug.LogWarning("LoadSceneCoroutineEnd:" + data.m_SceneName);
         }
         void UpdateAction() {
-            if(GetIsLoading() || Core.UCL_GameManager.Instance.f_ExitGame) return;
+            if(GetIsLoading() || Core.Game.UCL_GameManager.Instance.f_ExitGame) return;
             if(m_LoadSceneDataQue.Count > 0) {
                 StartLoadScene();
             }

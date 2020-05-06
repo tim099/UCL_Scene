@@ -7,7 +7,7 @@ namespace UCL.SceneLib {
         /// <summary>
         /// Scene name of the loading target
         /// </summary>
-        [UCL.Core.PA.UCL_StrListProperty(typeof(UCL.SceneLib.Lib), "GetScenesName")] public string m_SceneName;
+        [UCL.Core.PA.UCL_StrList(typeof(UCL.SceneLib.Lib), "GetScenesName")] public string m_SceneName;
 
         /// <summary>
         /// if(m_LoadOnStart == true) Auto load On Start() 
@@ -37,7 +37,7 @@ namespace UCL.SceneLib {
         /// Create a button which invoke EditorLoadScene() when pressed
         /// </summary>
         [Header("Press Invoke to loadscene in Editor Mode")]
-        [UCL.Core.PA.UCL_ButtonProperty("EditorLoad")] public bool LoadScene;
+        [UCL.Core.PA.UCL_ButtonAttribute("EditorLoad")] public bool LoadScene;
         public void EditorLoad(bool flag) {
             Debug.LogWarning("EditorLoadScene:" + m_SceneName + ",flag:" + flag);
             string path = UCL.SceneLib.Lib.GetScenePath(m_SceneName);
