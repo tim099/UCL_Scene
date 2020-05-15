@@ -8,6 +8,7 @@ namespace UCL.SceneLib {
 
 
 #if UNITY_EDITOR
+    #region Editor
     public static class EditorSceneLoader {
         static string m_SceneToOpen;
         static bool m_Rigistered = false;
@@ -48,11 +49,12 @@ namespace UCL.SceneLib {
             m_SceneToOpen = null;
         }
     }
+    #endregion
 #endif
 
 
 
-[CreateAssetMenu(fileName = "New SceneSwitcher", menuName = "UCL/SceneSwitcher", order = 0)]
+    [CreateAssetMenu(fileName = "New SceneSwitcher", menuName = "UCL/SceneSwitcher", order = 0)]
     public class UCL_SceneSwitcher : ScriptableObject {
         [System.Serializable]
         public struct SceneData {
@@ -88,6 +90,7 @@ namespace UCL.SceneLib {
             //Selection.activeObject = AssetDatabase.LoadMainAssetAtPath("Assets/Libs/UCL_Modules/UCL_Scene/SceneSwitcher.asset");
             Selection.activeObject = Resources.Load<UCL.SceneLib.UCL_SceneSwitcher>("SceneSwitcher");
         }
+        //[MenuItem("Window/CubeManager Window")]
 #endif
         public List<SceneData> m_SceneDatas;
         [Core.PA.UCL_StrList(typeof(Lib), "GetAllScenesName")] public string m_LoadSceneName;
