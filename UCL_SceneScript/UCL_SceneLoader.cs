@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UCL.Core.ObjectReflectionExtension;
 namespace UCL.SceneLib {
 #if UNITY_EDITOR
     [Core.ATTR.EnableUCLEditor]
@@ -10,8 +10,16 @@ namespace UCL.SceneLib {
         /// <summary>
         /// Scene name of the loading target
         /// </summary>
-        [UCL.Core.PA.UCL_StrList(typeof(UCL.SceneLib.Lib), "GetScenesName")] public string m_SceneName;
+        #if UNITY_EDITOR
+        //[UCL.Core.PA.UCL_StrList(typeof(UCL.SceneLib.Lib), "GetScenesName")]
+        [UCL.Core.PA.UCL_List("GetScenesName")]
+        #endif
+        public string m_SceneName;
 
+
+#if UNITY_EDITOR
+        [SerializeField] protected ScriptableObject m_BuildSetting;
+#endif
         /// <summary>
         /// if(m_LoadOnStart == true) Auto load On Start() 
         /// </summary>
@@ -24,18 +32,54 @@ namespace UCL.SceneLib {
                 Load();
             }
         }
+        private void OnValidate() {
+#if UNITY_EDITOR
+            CheckScenesInBuildSetting();
+#endif
+        }
         /// <summary>
         /// Load target scene!!
         /// </summary>
         virtual public void Load() {
             if(f_Loading) return;//Already Loaing!!
+            
+#if UNITY_EDITOR
+            if(!CheckScenesInBuildSetting()) {
+                return;
+            }
+#endif
             f_Loading = true;
+
             var data = UCL.SceneLib.UCL_SceneManager.Instance.LoadScene(m_SceneName);
             data.SetAllowSceneActivation(m_AllowSceneActivation);
             data.StartLoad();
         }
+
         #region Editor
 #if UNITY_EDITOR
+        public bool CheckScenesInBuildSetting() {
+            if(string.IsNullOrEmpty(UCL.SceneLib.Lib.GetScenePath(m_SceneName))) {
+                if(m_BuildSetting != null) {
+                    m_BuildSetting.Invoke("ApplyScenesInBuildSetting");
+                    Debug.LogWarning("m_BuildSetting.ApplyScenesInBuildSetting()!!");
+                    return false;
+                }
+            }
+            return true;
+        }
+        public string[] GetScenesName() {
+            if(m_BuildSetting == null) {
+                return UCL.SceneLib.Lib.GetScenesName();
+            }
+            return (string[])m_BuildSetting.Invoke("GetScenesName");
+        }
+        public string GetScenePath(string scene_name) {
+            if(m_BuildSetting != null) {
+                return (string)m_BuildSetting.Invoke("GetScenePath", scene_name);
+            }
+            return UCL.SceneLib.Lib.GetScenePath(m_SceneName);
+        }
+
         /// <summary>
         /// Create a button which invoke EditorLoadScene() when pressed
         /// </summary>
@@ -45,7 +89,7 @@ namespace UCL.SceneLib {
         public void EditorLoad() {
             //bool flag
             //Debug.LogWarning("EditorLoadScene:" + m_SceneName + ",flag:" + flag);
-            string path = UCL.SceneLib.Lib.GetScenePath(m_SceneName);
+            string path = GetScenePath(m_SceneName);
             UCL.SceneLib.EditorSceneLoader.LoadScene(path);
         }
 #endif
