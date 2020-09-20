@@ -63,14 +63,14 @@ namespace UCL.SceneLib {
             m_AllowSceneActivation = true;
         }
 
-        #region protected 
+        #region internal protected 
         //Dont call any func in this region except LoadSceneManager!!
 
         /// <summary>
         /// Dont call this func outside LoadSceneManager!!
         /// LoadInit
         /// </summary>
-        public void LoadInit() {
+        internal protected void LoadInit() {
             if(m_AsyncOperation != null) {
                 return;
             }
@@ -90,7 +90,7 @@ namespace UCL.SceneLib {
         /// Dont call this func outside LoadSceneManager!!
         /// return true if load end!!
         /// </summary>
-        public bool LoadingUpdate() {
+        internal protected bool LoadingUpdate() {
             const float done_percent = 0.8999f;
             m_LoadingTime += Time.deltaTime;
 
