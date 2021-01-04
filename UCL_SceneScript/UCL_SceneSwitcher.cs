@@ -58,7 +58,7 @@ namespace UCL.SceneLib {
     public class UCL_SceneSwitcher : ScriptableObject {
         [System.Serializable]
         public struct SceneData {
-            [UCL.Core.PA.UCL_Button("OpenScene")] public Object m_Scene;
+            [UCL.Core.PA.UCL_Button("OpenScene")] public SceneAsset m_Scene;
 
             public string GetSceneName() {
                 if(m_Scene == null) return "";
@@ -76,8 +76,7 @@ namespace UCL.SceneLib {
                 EditorSceneLoader.LoadScene(path);
                 //UnityEditor.Selection.activeObject = UnityEditor.AssetDatabase.LoadMainAssetAtPath(path);
             }
-            public void OpenScene(Object obj) {
-                Debug.LogWarning("Cool!!:" + obj.name);
+            public void OpenScene(SceneAsset obj) {
                 var path = GetPath();
                 EditorSceneLoader.LoadScene(path);
                 //UnityEditor.Selection.activeObject = UnityEditor.AssetDatabase.LoadMainAssetAtPath(path);

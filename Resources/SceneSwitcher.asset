@@ -19,4 +19,4 @@ MonoBehaviour:
   - m_Scene: {fileID: 102900000, guid: e36b4c3d448bcab4f9de820b1442a37b, type: 3}
   - m_Scene: {fileID: 102900000, guid: 1065910ff50387543834e756006750dd, type: 3}
   - m_Scene: {fileID: 102900000, guid: c797a69e2c7b0d14b9bc5f598f85f70e, type: 3}
-  m_LoadSceneName: AOC_Start
+  m_LoadSceneName: RCG_MainMenu
