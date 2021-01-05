@@ -60,49 +60,25 @@ namespace UCL.SceneLib {
 
         private void OnGUI() {
             if(m_Target == null) return;
-            GUILayout.BeginVertical();
-            DrawToolBar();
-            GUILayout.Space(20);
-            using(var scrollScope = new EditorGUILayout.ScrollViewScope(m_ScrollPos)) {
-                m_ScrollPos = scrollScope.scrollPosition;
-                using(new EditorGUILayout.VerticalScope()) {
-                    int wid = 4;
-                    int x = 0;
-                    //int y = 0;
-                    foreach(var v in m_Target.m_SceneDatas) {
-                        
-                        if(x == 0) {
-                            GUILayout.BeginHorizontal();
-                        }
-                        if(GUILayout.Button(new GUIContent(v.GetSceneName(), m_TestTexture, ""),
-                                    EditorStyles.toolbarButton)) {//, GUILayout.Width(80), GUILayout.Height(60f)
-                            v.OpenScene();
-                        }
-                        GUILayout.Space(30);
+            
+            //DrawToolBar();
+            //GUILayout.Space(20);
 
-                        x++;
-                        if(x >= wid) {
-                            GUILayout.EndHorizontal();
-                            x = 0;
-                        }
+            m_ScrollPos = GUILayout.BeginScrollView(m_ScrollPos);
+            
+            GUILayout.BeginHorizontal();
+            m_Target = EditorGUILayout.ObjectField(m_Target, typeof(UCL_SceneSwitcher), false) as UCL_SceneSwitcher;
+            using(var scope = new GUILayout.VerticalScope("box", GUILayout.Width(200))) {
+                foreach(var v in m_Target.m_SceneDatas) {
+                    if(GUILayout.Button(v.GetSceneName())) {//, GUILayout.Width(80), GUILayout.Height(60f)
+                        v.OpenScene();
                     }
-                    /*
-                    //m_GirdBackground.Draw(m_GridRegion, m_ScrollPos);
-                    //Handles.DrawLine(new Vector3(0f, 0f, 0f), new Vector3(100f, 500f, 0f));
-                    {
-                        BeginWindows();
-                        //m_CubeManager.m_Cubes.ForEach(node => node.DrawNode());
-                        EndWindows();
-                    }
-                    
-                    if(Event.current.type == EventType.Layout) {
-                        GUILayoutUtility.GetRect(new GUIContent(string.Empty), GUIStyle.none, GUILayout.Width(0),
-                            GUILayout.Height(0));
-                    }
-                    */
+                    //GUILayout.Space(4);
                 }
             }
-            GUILayout.EndVertical();
+            GUILayout.EndHorizontal();
+            GUILayout.EndScrollView();
+            
 
             if(Event.current.type == EventType.Repaint) {
                 var newRgn = GUILayoutUtility.GetLastRect();
