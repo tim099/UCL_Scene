@@ -7,6 +7,7 @@ using UnityEngine;
 namespace UCL.SceneLib {
 
     [CreateAssetMenu(fileName = "New SceneSwitcher", menuName = "UCL/SceneSwitcher", order = 0)]
+    ///UCL_SceneSwitcher is under Editor folder and is only for Editor usage
     public class UCL_SceneSwitcher : ScriptableObject {
         [System.Serializable]
         public struct SceneData {
@@ -17,7 +18,6 @@ namespace UCL.SceneLib {
 
                 return m_Scene.name;
             }
-#if UNITY_EDITOR
             public string GetPath() {
                 if(m_Scene == null) return "";
 
@@ -33,16 +33,16 @@ namespace UCL.SceneLib {
                 EditorSceneLoader.LoadScene(path);
                 //UnityEditor.Selection.activeObject = UnityEditor.AssetDatabase.LoadMainAssetAtPath(path);
             }
-#endif
         }
-#if UNITY_EDITOR
-        [MenuItem("UCL/SceneSwitcher")]
+        [MenuItem("UCL/SceneLib/SceneSwitcher")]
         static public void OpenSceneSwitcher() {
             //Selection.activeObject = AssetDatabase.LoadMainAssetAtPath("Assets/Libs/UCL_Modules/UCL_Scene/SceneSwitcher.asset");
             Selection.activeObject = Resources.Load<UCL.SceneLib.UCL_SceneSwitcher>("SceneSwitcher");
         }
-        //[MenuItem("Window/CubeManager Window")]
-#endif
+        [MenuItem("UCL/SceneSwitcherWindow")]
+        static public void OpenSceneSwitcherWindow() {
+            UCL_SceneSwitcherEditor.ShowWindow(Resources.Load<UCL.SceneLib.UCL_SceneSwitcher>("SceneSwitcher"));
+        }
         public List<SceneData> m_SceneDatas;
         [Core.PA.UCL_StrList(typeof(Lib), "GetAllScenesName")] public string m_LoadSceneName;
     }
