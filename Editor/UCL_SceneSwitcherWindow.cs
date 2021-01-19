@@ -63,6 +63,7 @@ namespace UCL.SceneLib {
                 data.m_Scene = AssetDatabase.LoadAssetAtPath<SceneAsset>(scene.path);
                 Undo.RecordObject(m_Target, "add scene");
                 m_Target.m_SceneDatas.Add(data);
+                AssetDatabase.SaveAssets();
             }
             GUILayout.EndVertical();
             int delete_at = -1;
@@ -83,6 +84,7 @@ namespace UCL.SceneLib {
             if(delete_at >= 0) {
                 Undo.RecordObject(m_Target, "delete scene");
                 m_Target.m_SceneDatas.RemoveAt(delete_at);
+                AssetDatabase.SaveAssets();
             }
             GUILayout.EndHorizontal();
             GUILayout.EndScrollView();
