@@ -113,7 +113,7 @@ namespace UCL.SceneLib {
                     LoadComplete();
                     PlayerPrefs.SetFloat(LoadingTimeKey(), m_LoadingTime);
                 }
-                Debug.Log(m_SceneName+"_LoadProgress:" + m_LoadProgress);
+                //Debug.Log(m_SceneName+"_LoadProgress:" + m_LoadProgress);
             }
             if(!m_LoadDone) {
                 if(m_AsyncOperation.isDone) LoadDone();
