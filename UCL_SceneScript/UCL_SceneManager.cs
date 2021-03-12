@@ -135,9 +135,14 @@ namespace UCL.SceneLib {
             m_LoadComplete = true;
             m_LoadCompleteAct?.Invoke();
         }
-
-        public bool m_LoadComplete { get; protected set; }//90% Loaded and wait for end!!
-        public bool m_LoadDone { get; protected set; }//Load End!!
+        /// <summary>
+        /// 90% Loaded and wait for end
+        /// </summary>
+        public bool m_LoadComplete { get; protected set; }
+        /// <summary>
+        /// Load Done
+        /// </summary>
+        public bool m_LoadDone { get; protected set; }
         public bool m_AllowSceneActivation { get; protected set; }
 
         public float m_LoadProgress { get; protected set; }
