@@ -66,13 +66,13 @@ namespace UCL.SceneLib {
                 m_ProgressBar.fillAmount = m_CurrentProgress;
             }
 
-            Debug.LogWarning("StartLoading:" + m_LoadSceneData.m_SceneName);
+            //Debug.LogWarning("StartLoading:" + m_LoadSceneData.m_SceneName);
         }
         /// <summary>
         /// Scene loaded but not yet switch to new scene
         /// </summary>
         virtual public void CompleteLoading() {
-            Debug.LogWarning("CompleteLoading():" + m_LoadSceneData.m_SceneName);
+            //Debug.LogWarning("CompleteLoading():" + m_LoadSceneData.m_SceneName);
             //if(m_LoadingCompletePanel) m_LoadingCompletePanel.SetActive(true);
         }
         virtual public void EndLoading() {
