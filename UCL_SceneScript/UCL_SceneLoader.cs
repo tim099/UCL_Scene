@@ -51,7 +51,7 @@ namespace UCL.SceneLib {
         /// Load scene by iSceneName
         /// </summary>
         /// <param name="iSceneName">target scene name</param>
-        virtual public void Load(string iSceneName)
+        virtual public void Load(string iSceneName, System.Action iLoadEndAct = null)
         {
             if (m_IsLoading)
             {
@@ -73,6 +73,7 @@ namespace UCL.SceneLib {
             data.SetLoadDoneAct(delegate()
             {
                 m_IsLoading = false;
+                if(iLoadEndAct != null) iLoadEndAct.Invoke();
             });
         }
         #region Editor
