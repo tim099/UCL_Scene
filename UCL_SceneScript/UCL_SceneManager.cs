@@ -79,7 +79,7 @@ namespace UCL.SceneLib {
             string LoadTimeKey = LoadingTimeKey();
             if(PlayerPrefs.HasKey(LoadTimeKey)) {
                 m_PredictLoadTime = PlayerPrefs.GetFloat(LoadTimeKey);
-                Debug.Log(m_SceneName+"_PredictLoadTime:" + m_PredictLoadTime);
+                //Debug.Log(m_SceneName+"_PredictLoadTime:" + m_PredictLoadTime);
             };
 
             m_AsyncOperation = SceneManager.LoadSceneAsync(m_SceneName, m_Mode);
