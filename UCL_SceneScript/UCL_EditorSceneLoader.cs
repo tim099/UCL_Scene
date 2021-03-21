@@ -1,15 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UCL.Core.EditorLib;
 
-#if UNITY_EDITOR
-using UnityEditor;
+
 
 namespace UCL.SceneLib {
-    #region Editor
     public static class EditorSceneLoader {
         static string m_SceneToOpen;
         static bool m_Rigistered = false;
+#if UNITY_EDITOR
         public static void LoadScene(string scene) {
             if(UnityEditor.EditorApplication.isPlaying) {
                 UnityEditor.EditorApplication.isPlaying = false;
@@ -17,7 +17,7 @@ namespace UCL.SceneLib {
 
             m_SceneToOpen = scene;
             if(!m_Rigistered) {
-                UnityEditor.EditorApplication.update += OnUpdate;
+                EditorApplicationMapper.update += OnUpdate;
                 m_Rigistered = true;
             } else {
                 Debug.LogWarning("SceneHelper m_Rigistered!!");
@@ -27,7 +27,7 @@ namespace UCL.SceneLib {
 
         static void OnUpdate() {
             if(m_SceneToOpen == null) {
-                UnityEditor.EditorApplication.update -= OnUpdate;
+                EditorApplicationMapper.update -= OnUpdate;
                 m_Rigistered = false;
                 return;
             }
@@ -37,7 +37,7 @@ namespace UCL.SceneLib {
                 return;
             }
 
-            UnityEditor.EditorApplication.update -= OnUpdate;
+            EditorApplicationMapper.update -= OnUpdate;
             m_Rigistered = false;
 
             if(UnityEditor.SceneManagement.EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) {
@@ -47,7 +47,5 @@ namespace UCL.SceneLib {
             m_SceneToOpen = null;
         }
     }
-    #endregion
-
-}
 #endif
+}
