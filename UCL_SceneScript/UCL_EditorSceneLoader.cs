@@ -11,8 +11,8 @@ namespace UCL.SceneLib {
         static bool m_Rigistered = false;
 #if UNITY_EDITOR
         public static void LoadScene(string scene) {
-            if(UnityEditor.EditorApplication.isPlaying) {
-                UnityEditor.EditorApplication.isPlaying = false;
+            if(UCL.Core.EditorLib.EditorApplicationMapper.isPlaying) {
+                UCL.Core.EditorLib.EditorApplicationMapper.isPlaying = false;
             }
 
             m_SceneToOpen = scene;
@@ -32,8 +32,8 @@ namespace UCL.SceneLib {
                 return;
             }
 
-            if(UnityEditor.EditorApplication.isPlaying || UnityEditor.EditorApplication.isPaused ||
-                UnityEditor.EditorApplication.isCompiling || UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode) {
+            if(UCL.Core.EditorLib.EditorApplicationMapper.isPlaying || UCL.Core.EditorLib.EditorApplicationMapper.isPaused ||
+                UCL.Core.EditorLib.EditorApplicationMapper.isCompiling || UCL.Core.EditorLib.EditorApplicationMapper.isPlayingOrWillChangePlaymode) {
                 return;
             }
 
@@ -46,6 +46,6 @@ namespace UCL.SceneLib {
             }
             m_SceneToOpen = null;
         }
-    }
 #endif
+    }
 }

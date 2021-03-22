@@ -22,7 +22,19 @@ namespace UCL.SceneLib {
         /// The BuildSetting this SceneLoader use, if not setted then use the Editor setting
         /// 設定要使用的BuildSetting, 若為空則使用Editor的場景設定
         /// </summary>
-        [SerializeField] protected ScriptableObject m_BuildSetting;
+        protected ScriptableObject BuildSetting
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(m_BuildSetting))
+                {
+                    return null;
+                }
+                return UCL.Core.EditorLib.AssetDatabaseMapper.LoadAssetAtPath<UnityEngine.ScriptableObject>(m_BuildSetting);
+            }
+        }
+
+        [SerializeField] [UCL.Core.PA.UCL_EditorOnly] protected string m_BuildSetting = string.Empty;
         /// <summary>
         /// if(m_LoadOnStart == true) Auto load On Start() 
         /// 設為true時會在Start時自動載入場景
@@ -85,9 +97,9 @@ namespace UCL.SceneLib {
         {
             if (string.IsNullOrEmpty(UCL.SceneLib.Lib.GetScenePath(iSceneName)))
             {
-                if (m_BuildSetting != null)
+                if (BuildSetting != null)
                 {
-                    m_BuildSetting.Invoke("ApplyScenesInBuildSetting");
+                    BuildSetting.Invoke("ApplyScenesInBuildSetting");
                     Debug.LogWarning("m_BuildSetting.ApplyScenesInBuildSetting()!!");
                     return false;
                 }
@@ -95,14 +107,14 @@ namespace UCL.SceneLib {
             return true;
         }
         public string[] GetScenesName() {
-            if(m_BuildSetting == null) {
+            if(BuildSetting == null) {
                 return UCL.SceneLib.Lib.GetScenesName();
             }
-            return (string[])m_BuildSetting.Invoke("GetScenesName");
+            return (string[])BuildSetting.Invoke("GetScenesName");
         }
         public string GetScenePath(string scene_name) {
-            if(m_BuildSetting != null) {
-                return (string)m_BuildSetting.Invoke("GetScenePath", scene_name);
+            if(BuildSetting != null) {
+                return (string)BuildSetting.Invoke("GetScenePath", scene_name);
             }
             return UCL.SceneLib.Lib.GetScenePath(m_SceneName);
         }
