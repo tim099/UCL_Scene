@@ -33,7 +33,9 @@ namespace UCL.SceneLib {
                 return UCL.Core.EditorLib.AssetDatabaseMapper.LoadAssetAtPath<UnityEngine.ScriptableObject>(m_BuildSetting);
             }
         }
-
+        /// <summary>
+        /// BuildSetting use for show list of SceneName
+        /// </summary>
         [SerializeField] [UCL.Core.PA.UCL_EditorOnly] protected string m_BuildSetting = string.Empty;
         /// <summary>
         /// if(m_LoadOnStart == true) Auto load On Start() 
@@ -112,9 +114,9 @@ namespace UCL.SceneLib {
             }
             return (string[])BuildSetting.Invoke("GetScenesName");
         }
-        public string GetScenePath(string scene_name) {
+        public string GetScenePath(string iSceneName) {
             if(BuildSetting != null) {
-                return (string)BuildSetting.Invoke("GetScenePath", scene_name);
+                return (string)BuildSetting.Invoke("GetScenePath", iSceneName);
             }
             return UCL.SceneLib.Lib.GetScenePath(m_SceneName);
         }

@@ -49,6 +49,7 @@ MonoBehaviour:
   m_LoadingPanel: {fileID: 2784406786549002524}
   m_LoadingCompletePanel: {fileID: 2784406786623899705}
   m_ProgressBar: {fileID: 2784406785634153162}
+  m_CurrentProgress: 0
 --- !u!1 &2784406785465621776
 GameObject:
   m_ObjectHideFlags: 0
@@ -592,7 +593,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Load End!!
+  m_Text: 'Load End!!
+
+    Click to Continue'
 --- !u!114 &2784406786729952076
 MonoBehaviour:
   m_ObjectHideFlags: 0

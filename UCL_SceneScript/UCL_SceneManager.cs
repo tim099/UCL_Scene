@@ -38,10 +38,10 @@ namespace UCL.SceneLib {
         /// <summary>
         /// Call once when LoadComplete
         /// </summary>
-        /// <param name="act"></param>
+        /// <param name="iAct"></param>
         /// <returns></returns>
-        public LoadSceneData SetLoadCompleteAct(System.Action act) {
-            m_LoadCompleteAct = act;
+        public LoadSceneData SetLoadCompleteAct(System.Action iAct) {
+            m_LoadCompleteAct = iAct;
             return this;
         }
         /// <summary>
@@ -110,10 +110,11 @@ namespace UCL.SceneLib {
 
             if(!m_LoadComplete) {
                 if(m_AsyncOperation.progress >= done_percent) {
+                    //Debug.LogError("LoadComplete()");
                     LoadComplete();
                     PlayerPrefs.SetFloat(LoadingTimeKey(), m_LoadingTime);
                 }
-                //Debug.Log(m_SceneName+"_LoadProgress:" + m_LoadProgress);
+                //Debug.LogError(m_SceneName+"_LoadProgress:" + m_LoadProgress);
             }
             if(!m_LoadDone) {
                 if(m_AsyncOperation.isDone) LoadDone();
@@ -208,22 +209,21 @@ namespace UCL.SceneLib {
         public bool GetIsLoading() { return m_CurLoadSceneData != null; }
 
         void StartLoadScene() {
-            if(GetIsLoading() || Core.Game.UCL_GameManager.Instance.f_ExitGame) return;
+            if(GetIsLoading() || Core.Game.UCL_GameManager.IsExitGame) return;
             if(m_LoadSceneDataQue.Count == 0) return;
             //Debug.LogWarning("StartLoadScene()");
             StartCoroutine(LoadSceneCoroutine(m_LoadSceneDataQue.Dequeue()));
         }
 
         IEnumerator LoadSceneCoroutine(LoadSceneData data) {
-            if(Core.Game.UCL_GameManager.Instance.f_ExitGame) yield break;
+            if(Core.Game.UCL_GameManager.IsExitGame) yield break;
             //Debug.LogWarning("LoadSceneCoroutine:" + data.m_SceneName);
             m_CurLoadSceneData = data;
-            UCL.Core.Game.UCL_GameManager.Instance.m_BlockExitGameFlag.Add("LoadSceneCoroutine");
+            UCL.Core.Game.UCL_GameManager.AddExitGameFlag("LoadSceneCoroutine");
             m_CurLoadSceneData.LoadInit();
             m_LoadSceneUI?.StartLoading(data);
-            bool complete = false;
+            bool aComplete = false;
             while(!m_CurLoadSceneData.LoadingUpdate()) {//!m_AsyncOperation.isDone
-                
                 /*
                 if(m_ApplicationQuit || m_Destroyed) {
                     m_AsyncOperation.allowSceneActivation = true;
@@ -231,19 +231,19 @@ namespace UCL.SceneLib {
                     m_AsyncOperation.allowSceneActivation = m_CurLoadSceneData.m_AllowSceneActivation;
                 }
                 */
-                if(!complete && m_CurLoadSceneData.m_LoadComplete) {
-                    complete = true;
+                if(!aComplete && m_CurLoadSceneData.m_LoadComplete) {
+                    aComplete = true;
                     m_LoadSceneUI?.CompleteLoading();
                 }
                 yield return null;
             }
             m_LoadSceneUI?.EndLoading();
             m_CurLoadSceneData = null;
-            UCL.Core.Game.UCL_GameManager.Instance.m_BlockExitGameFlag.Remove("LoadSceneCoroutine");
+            UCL.Core.Game.UCL_GameManager.RemoveExitGameFlag("LoadSceneCoroutine");
             //Debug.LogWarning("LoadSceneCoroutineEnd:" + data.m_SceneName);
         }
         void UpdateAction() {
-            if(GetIsLoading() || Core.Game.UCL_GameManager.Instance.f_ExitGame) return;
+            if(GetIsLoading() || Core.Game.UCL_GameManager.IsExitGame) return;
             if(m_LoadSceneDataQue.Count > 0) {
                 StartLoadScene();
             }

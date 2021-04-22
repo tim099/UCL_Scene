@@ -6,9 +6,9 @@ namespace UCL.SceneLib {
     public class UCL_LoadSceneUI : Core.UCL_Singleton<UCL_LoadSceneUI> {
         [SerializeField] protected bool f_RigisterOnAwake = true;
         [SerializeField] protected bool f_InitOnAwake = true;
-        [SerializeField] protected GameObject m_LoadingPanel;
-        [SerializeField] protected GameObject m_LoadingCompletePanel;
-        [SerializeField] protected Image m_ProgressBar;
+        [SerializeField] protected GameObject m_LoadingPanel = null;
+        [SerializeField] protected GameObject m_LoadingCompletePanel = null;
+        [SerializeField] protected Image m_ProgressBar = null;
         public float m_CurrentProgress;
         float m_MaxStep = 0.1f;
         bool m_ShouldEnd;
@@ -73,7 +73,7 @@ namespace UCL.SceneLib {
         /// </summary>
         virtual public void CompleteLoading() {
             //Debug.LogWarning("CompleteLoading():" + m_LoadSceneData.m_SceneName);
-            //if(m_LoadingCompletePanel) m_LoadingCompletePanel.SetActive(true);
+            if(m_LoadingCompletePanel) m_LoadingCompletePanel.SetActive(true);
         }
         virtual public void EndLoading() {
             m_ShouldEnd = true;
@@ -92,7 +92,8 @@ namespace UCL.SceneLib {
                 //m_ProgressBar.fillAmount = m_LoadSceneData.m_LoadProgress;
                 m_ProgressBar.fillAmount = m_CurrentProgress;
             }
-            if(m_ShouldEnd && m_CurrentProgress >= 1.0f)
+            
+            if (m_ShouldEnd && m_CurrentProgress >= 1.0f)
             {
                 if (m_LoadingCompletePanel) m_LoadingCompletePanel.SetActive(true);
                 m_CurrentProgress += m_MaxStep;
