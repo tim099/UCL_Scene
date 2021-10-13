@@ -150,6 +150,8 @@ namespace UCL.SceneLib {
         public string m_SceneName { get; protected set; }
         public LoadSceneMode m_Mode { get; protected set; }
 
+        public bool IsHideLoadSceneUI { get; set; } = false;
+
         protected bool f_LoadStart;
         protected float m_PredictLoadTime;
         protected float m_LoadingTime;
@@ -198,10 +200,10 @@ namespace UCL.SceneLib {
 
             m_LoadSceneUI = _LoadSceneUI;
         }
-        public LoadSceneData LoadScene(string _SceneName) {
-            var data = new LoadSceneData(_SceneName);
+        public LoadSceneData LoadScene(string iSceneName) {
+            var aData = new LoadSceneData(iSceneName);
             //LoadScene(data);
-            return data;
+            return aData;
         }
         public void LoadScene(LoadSceneData data) {
             m_LoadSceneDataQue.Enqueue(data);
@@ -221,7 +223,7 @@ namespace UCL.SceneLib {
             m_CurLoadSceneData = data;
             UCL.Core.Game.UCL_GameManager.AddExitGameFlag("LoadSceneCoroutine");
             m_CurLoadSceneData.LoadInit();
-            m_LoadSceneUI?.StartLoading(data);
+            if(m_LoadSceneUI != null) m_LoadSceneUI.StartLoading(data);
             bool aComplete = false;
             while(!m_CurLoadSceneData.LoadingUpdate()) {//!m_AsyncOperation.isDone
                 /*
@@ -233,11 +235,11 @@ namespace UCL.SceneLib {
                 */
                 if(!aComplete && m_CurLoadSceneData.m_LoadComplete) {
                     aComplete = true;
-                    m_LoadSceneUI?.CompleteLoading();
+                    if (m_LoadSceneUI != null) m_LoadSceneUI.CompleteLoading();
                 }
                 yield return null;
             }
-            m_LoadSceneUI?.EndLoading();
+            if (m_LoadSceneUI != null) m_LoadSceneUI.EndLoading();
             m_CurLoadSceneData = null;
             UCL.Core.Game.UCL_GameManager.RemoveExitGameFlag("LoadSceneCoroutine");
             //Debug.LogWarning("LoadSceneCoroutineEnd:" + data.m_SceneName);

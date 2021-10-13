@@ -54,10 +54,10 @@ namespace UCL.SceneLib {
             if(m_LoadingPanel) m_LoadingPanel.SetActive(false);
             m_LoadSceneData = null;
         }
-        virtual public void StartLoading(LoadSceneData data) {
-            if(m_LoadingPanel) m_LoadingPanel.SetActive(true);
+        virtual public void StartLoading(LoadSceneData iData) {
+            if(m_LoadingPanel) m_LoadingPanel.SetActive(!iData.IsHideLoadSceneUI);
             if(m_LoadingCompletePanel) m_LoadingCompletePanel.SetActive(false);
-            m_LoadSceneData = data;
+            m_LoadSceneData = iData;
 
             m_ShouldEnd = false;
             m_CurrentProgress = 0.0f;

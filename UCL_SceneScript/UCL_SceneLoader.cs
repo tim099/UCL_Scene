@@ -65,30 +65,33 @@ namespace UCL.SceneLib {
         /// Load scene by iSceneName
         /// </summary>
         /// <param name="iSceneName">target scene name</param>
-        virtual public void Load(string iSceneName, System.Action iLoadEndAct = null)
+        virtual public LoadSceneData Load(string iSceneName, System.Action iLoadEndAct = null)
         {
             if (m_IsLoading)
             {
                 Debug.LogError("Load:" + iSceneName + " ,Fail!! Already Loaing!!");
-                return;//Already Loaing!!
+                return null;//Already Loaing!!
             }
 #if UNITY_EDITOR
             if (!CheckScenesInBuildSetting())
             {
                 Debug.LogError("!CheckScenesInBuildSetting()");
-                return;
+                return null;
             }
 #endif
             m_IsLoading = true;
 
-            var data = UCL.SceneLib.UCL_SceneManager.Instance.LoadScene(iSceneName);
-            data.SetAllowSceneActivation(m_AllowSceneActivation);
-            data.StartLoad();
-            data.SetLoadDoneAct(delegate()
+            var aData = UCL.SceneLib.UCL_SceneManager.Instance.LoadScene(iSceneName);
+            aData.SetAllowSceneActivation(m_AllowSceneActivation);
+
+            aData.SetLoadDoneAct(delegate()
             {
                 m_IsLoading = false;
                 if(iLoadEndAct != null) iLoadEndAct.Invoke();
             });
+
+            aData.StartLoad();
+            return aData;
         }
         #region Editor
 #if UNITY_EDITOR
