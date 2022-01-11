@@ -13,7 +13,7 @@ namespace UCL.SceneLib {
                 UCL.Core.EditorLib.EditorApplicationMapper.isPlaying = false;
             }
 
-            UCL.Core.EditorLib.UCL_EditorUpdateManager.AddAction(()=>Load(iSceneName));
+            UCL.Core.ServiceLib.UCL_UpdateService.AddAction(() => Load(iSceneName));
         }
 
         static void Load(string iSceneName) {
@@ -23,7 +23,7 @@ namespace UCL.SceneLib {
 
             if(UCL.Core.EditorLib.EditorApplicationMapper.isPlaying || UCL.Core.EditorLib.EditorApplicationMapper.isPaused ||
                 UCL.Core.EditorLib.EditorApplicationMapper.isCompiling || UCL.Core.EditorLib.EditorApplicationMapper.isPlayingOrWillChangePlaymode) {
-                UCL.Core.EditorLib.UCL_EditorUpdateManager.AddAction(() => Load(iSceneName));//Wait 1 Frame
+                UCL.Core.ServiceLib.UCL_UpdateService.AddAction(() => Load(iSceneName));//Wait 1 Frame
                 return;
             }
 
