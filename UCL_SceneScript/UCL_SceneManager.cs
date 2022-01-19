@@ -83,7 +83,10 @@ namespace UCL.SceneLib {
             };
 
             m_AsyncOperation = SceneManager.LoadSceneAsync(m_SceneName, m_Mode);
-            m_AsyncOperation.allowSceneActivation = m_AllowSceneActivation;//stop auto enter new scene
+            if (m_AsyncOperation != null)
+            {
+                m_AsyncOperation.allowSceneActivation = m_AllowSceneActivation;//stop auto enter new scene
+            }
         }
 
         /// <summary>
